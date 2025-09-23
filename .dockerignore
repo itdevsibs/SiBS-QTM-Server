@@ -1,0 +1,32 @@
+.git
+.gitignore
+
+# Environment files (keep example)
+.env
+.env.local
+.env.*
+!.env.example
+
+# Local dependencies / build artefacts
+vendor/
+node_modules/
+dist/
+build/
+
+# OS / editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Logs, caches, tests
+*.log
+cache/
+tmp/
+tests/
+coverage/
+
+# misc
+composer.phar
+npm-debug.log*
+*.sqlite
+*.sqlite3

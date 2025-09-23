@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: qtm-server:latest
+    restart: always
+    ports:
+      - "8082:80"
+    environment:
+      servername_kronos: 172.18.0.164
+      username_kronos: sibssoftdev
+      password_kronos: sibssoftdev
+      dbname_kronos: kronos_testdb
+      servername_qam: 172.18.0.164
+      username_qam: sibssoftdev
+      password_qam: sibssoftdev
+      dbname_qam: qam_testdb
+    volumes:
+      - uploads:/app/uploads
+    networks:
+      - qtm-network
+
+volumes:
+  uploads:
+
+networks:
+  qtm-network:
+    driver: bridge

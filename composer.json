@@ -1,0 +1,10 @@
+{
+    "name": "sibs-qtm/server",
+    "require": {
+        "slim/slim": "^4.0",
+        "slim/psr7": "^1.7",
+        "nyholm/psr7": "^1.8",
+        "nyholm/psr7-server": "^1.1",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
