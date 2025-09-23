@@ -31,11 +31,22 @@ RUN a2enmod headers rewrite \
  && cat > /etc/apache2/sites-available/000-default.conf <<'EOF'
 <VirtualHost *:80>
     DocumentRoot /app
+
     <Directory /app>
         Options Indexes FollowSymLinks
-        AllowOverride All
+        AllowOverride None
         Require all granted
+
+        # serve index.php as the directory index
+        DirectoryIndex index.php index.html
+
+        # Rewrite everything that is not a real file/dir to index.php (Slim front controller)
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule ^ index.php [QSA,L]
     </Directory>
+
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
