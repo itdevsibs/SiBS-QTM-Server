@@ -12,8 +12,6 @@ $app = AppFactory::create();
 // enable JSON / form body parsing
 $app->addBodyParsingMiddleware();
 
-// Add error middleware
-$app->addErrorMiddleware(true, true, true);
 
 // Add CORS middleware
 $app->add(function ($request, $handler) {
@@ -37,6 +35,9 @@ $app->add(function ($request, $handler) {
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     return $response;
 });
+
+// Add error middleware
+$app->addErrorMiddleware(true, true, true);
 
 // Handle preflight requests
 $app->options('/{routes:.+}', function ($request, $response, $args) {
