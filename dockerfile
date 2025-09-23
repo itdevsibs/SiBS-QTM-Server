@@ -26,5 +26,20 @@ RUN sed -ri "s!/var/www/html!/app!g" /etc/apache2/sites-available/*.conf \
  && find /app -type d -exec chmod 755 {} \; \
  && find /app -type f -exec chmod 644 {} \;
 
+ # ensure vhost allows access to /app and enable headers
+RUN a2enmod headers rewrite \
+ && cat > /etc/apache2/sites-available/000-default.conf <<'EOF'
+<VirtualHost *:80>
+    DocumentRoot /app
+    <Directory /app>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF
+
 EXPOSE 80
 CMD ["apache2-foreground"]
