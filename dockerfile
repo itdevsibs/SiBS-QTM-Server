@@ -27,25 +27,45 @@ RUN sed -ri "s!/var/www/html!/app!g" /etc/apache2/sites-available/*.conf \
  && find /app -type f -exec chmod 644 {} \;
 
  # ensure vhost allows access to /app and enable headers
-RUN a2enmod headers rewrite \
+ RUN a2enmod headers rewrite \
  && cat > /etc/apache2/sites-available/000-default.conf <<'EOF'
 <VirtualHost *:80>
     DocumentRoot /app
 
     <Directory /app>
-        Options Indexes FollowSymLinks
+        Options -Indexes +FollowSymLinks
         AllowOverride None
         Require all granted
 
         # serve index.php as the directory index
         DirectoryIndex index.php index.html
+    </Directory>
 
-        # Rewrite everything that is not a real file/dir to index.php (Slim front controller)
+    <IfModule mod_rewrite.c>
         RewriteEngine On
+
+        # Deny access to dotfiles (any path)
+        RewriteRule (^|/)\. - [F,L]
+
+        # Deny access to specific sensitive files
+        <FilesMatch "^(composer\.json|composer\.lock|\.env|Dockerfile|dockerfile|README\.md|readme\.md)$">
+            <IfModule mod_authz_core.c>
+                Require all denied
+            </IfModule>
+            <IfModule !mod_authz_core.c>
+                Order allow,deny
+                Deny from all
+            </IfModule>
+        </FilesMatch>
+
+        # Block direct access to whole directories
+        RewriteRule ^(vendor|database|\.git|node_modules)(/|$) - [F,L]
+
+        # Route all other requests to index.php (front controller)
         RewriteCond %{REQUEST_FILENAME} !-f
         RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteRule ^ index.php [QSA,L]
-    </Directory>
+        RewriteRule ^.*$ /index.php [QSA,L]
+    </IfModule>
 
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
