@@ -28,3 +28,6 @@ Thumbs.db
 # Misc
 *.sqlite
 *.sqlite3
+
+#htaccess
+.htaccess
