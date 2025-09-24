@@ -55,11 +55,6 @@ $app->add(function ($request, $handler) {
 // Add error middleware
 $app->addErrorMiddleware(true, true, true);
 
-// Handle preflight requests
-$app->options('/{routes:.+}', function ($request, $response, $args) {
-    return $response;
-});
-
 $app->get('/favicon.ico', function (Request $request, Response $response, $args) {
     return $response->withStatus(204);
 });
