@@ -43,7 +43,7 @@ $app->add(function ($request, $handler) {
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
         ->withHeader('Access-Control-Expose-Headers', 'Authorization')
         ->withHeader('Vary', 'Origin');
-    echo(json_encode(['app_env' => $env])) . PHP_EOL;
+
     // Cache preflight response for 1 day unless in development or dockerprod environment
     if ($env !== 'development' && $env !== 'dockerprod') {
         $response = $response->withHeader('Access-Control-Max-Age', '86400');
