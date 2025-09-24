@@ -18,6 +18,7 @@ services:
       username_qam: sibssoftdev
       password_qam: sibssoftdev
       dbname_qam: qam_testdb
+      app_env: dockerprod
     volumes:
       - uploads:/app/uploads
     networks:
