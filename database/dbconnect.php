@@ -3,17 +3,17 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->safeLoad();
 
-//Kronos DB configuration
-$servername_kronos = $_ENV['servername_kronos'] ?? "";
-$username_kronos = $_ENV['username_kronos'] ?? "";
-$password_kronos = $_ENV['password_kronos'] ?? "";
-$dbname_kronos = $_ENV['dbname_kronos'] ?? "";
+//Kronos DB configuration, environment variables if local or hosted on linux server and fallbacks on hostinger domain
+$servername_kronos = $_ENV['servername_kronos'] ?? "localhost";
+$username_kronos = $_ENV['username_kronos'] ?? "u292602927_kronostest";
+$password_kronos = $_ENV['password_kronos'] ?? "G+aFc2wzbe&a";
+$dbname_kronos = $_ENV['dbname_kronos'] ?? "u292602927__kronostest";
 
-// QAM DB configuration  
-$servername_qam = $_ENV['servername_qam'] ?? "";
-$username_qam = $_ENV['username_qam'] ?? "";
-$password_qam = $_ENV['password_qam'] ?? "";
-$dbname_qam = $_ENV['dbname_qam'] ?? "";
+// QAM DB configuration, environment variables if local or hosted on linux server and fallbacks on hostinger domain
+$servername_qam = $_ENV['servername_qam'] ?? "localhost";
+$username_qam = $_ENV['username_qam'] ?? "u292602927_testreact";
+$password_qam = $_ENV['password_qam'] ?? "7lO#0stN^";
+$dbname_qam = $_ENV['dbname_qam'] ?? "u292602927_testreact";
 
 
 /* 
